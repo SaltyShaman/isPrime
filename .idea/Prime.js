@@ -1,23 +1,34 @@
-function isPrime(n) {
-    if (n < 2) return false;
-    if (n === 2 || n === 3) return true;
-    if (n % 2 === 0 || n % 3 === 0) return false;
+console.log("Prime is in");
 
-    // Trial Division for Small Numbers
-    for (let i = 5; i * i <= n; i += 6) {
-        if (n % i === 0 || n % (i + 2) === 0) return false;
+document.getElementById("checkButton").addEventListener("click", function() {
+    const inputValue = document.getElementById("numberInput").value.trim();
+
+    // Ensure the input is a valid number
+    if (inputValue === "" || isNaN(Number(inputValue))) {
+        document.getElementById("result").innerText = "Please enter a valid number.";
+        return;
     }
 
-    // Deterministic Miller-Rabin for numbers < 2³² (100% accurate)
-    if (n < 4294967296) return deterministicMillerRabin(n);
+    const num = BigInt(inputValue); // Convert to BigInt for large numbers
+    const result = isPrime(num) ? `${num} is a prime number` : `${num} is NOT a prime number`;
+    document.getElementById("result").innerText = result;
+});
 
-    // AKS Primality Test (Slow but 100% correct for any n)
+function isPrime(n) {
+    if (n < 2n) return false;
+    if (n === 2n || n === 3n) return true;
+    if (n % 2n === 0n || n % 3n === 0n) return false;
+
+    for (let i = 5n; i * i <= n; i += 6n) {
+        if (n % i === 0n || n % (i + 2n) === 0n) return false;
+    }
+
+    if (n < 4294967296n) return deterministicMillerRabin(n);
     return aksPrime(n);
 }
 
-// Deterministic Miller-Rabin (100% Correct for n < 2³²)
 function deterministicMillerRabin(n) {
-    const bases = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
+    const bases = [2n, 3n, 5n, 7n, 11n, 13n, 17n, 19n, 23n, 29n, 31n, 37n];
     if (bases.includes(n)) return true;
     for (let a of bases) {
         if (!millerRabinTest(n, a)) return false;
@@ -25,51 +36,41 @@ function deterministicMillerRabin(n) {
     return true;
 }
 
-// Miller-Rabin single base test
 function millerRabinTest(n, a) {
-    let d = n - 1, r = 0;
-    while (d % 2 === 0) {
-        d /= 2;
+    let d = n - 1n, r = 0n;
+    while (d % 2n === 0n) {
+        d /= 2n;
         r++;
     }
     let x = modExp(a, d, n);
-    if (x === 1 || x === n - 1) return true;
-    for (let i = 0; i < r - 1; i++) {
-        x = modExp(x, 2, n);
-        if (x === n - 1) return true;
+    if (x === 1n || x === n - 1n) return true;
+    for (let i = 0n; i < r - 1n; i++) {
+        x = modExp(x, 2n, n);
+        if (x === n - 1n) return true;
     }
     return false;
 }
 
-// Fast modular exponentiation
 function modExp(base, exp, mod) {
-    let result = 1;
+    let result = 1n;
     base = base % mod;
-    while (exp > 0) {
-        if (exp % 2 === 1) result = (result * base) % mod;
-        exp = Math.floor(exp / 2);
+    while (exp > 0n) {
+        if (exp % 2n === 1n) result = (result * base) % mod;
+        exp /= 2n;
         base = (base * base) % mod;
     }
     return result;
 }
 
-// AKS Primality Test (100% Correct but Slow)
 function aksPrime(n) {
-    if (n < 2) return false;
-    if (n === 2) return true;
-    if (n % 2 === 0) return false;
+    if (n < 2n) return false;
+    if (n === 2n) return true;
+    if (n % 2n === 0n) return false;
 
-    let r = 1;
+    let r = 1n;
     while ((r * r) <= n) {
-        if (n % r === 0 && r !== 1 && r !== n) return false;
+        if (n % r === 0n && r !== 1n && r !== n) return false;
         r++;
     }
     return true;
 }
-
-// Test Cases
-console.log(isPrime(7));          // true (Prime)
-console.log(isPrime(10));         // false (Not Prime)
-console.log(isPrime(101));        // true (Prime)
-console.log(isPrime(9999999967)); // true (Large Prime)
-console.log(isPrime(9999999969)); // false (Not Prime)
