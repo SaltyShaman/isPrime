@@ -1,5 +1,3 @@
-console.log("Prime is in");
-
 document.getElementById("checkButton").addEventListener("click", function() {
     const inputValue = document.getElementById("numberInput").value.trim();
 
@@ -10,8 +8,19 @@ document.getElementById("checkButton").addEventListener("click", function() {
     }
 
     const num = BigInt(inputValue); // Convert to BigInt for large numbers
-    const result = isPrime(num) ? `${num} is a prime number` : `${num} is NOT a prime number`;
-    document.getElementById("result").innerText = result;
+    const resultElement = document.getElementById("result");
+    const primesArea = document.getElementById("primes");
+    const nonPrimesArea = document.getElementById("nonPrimes");
+
+    if (isPrime(num)) {
+        resultElement.innerText = `${num} is a prime number`;
+        primesArea.value += num + "\n"; // Append to the primes textarea
+        console.log("Prime is in");
+    } else {
+        resultElement.innerText = `${num} is NOT a prime number`;
+        nonPrimesArea.value += num + "\n"; // Append to the non-primes textarea
+        console.log("Non-prime is in");
+    }
 });
 
 function isPrime(n) {

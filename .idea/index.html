@@ -3,15 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styling.css">
     <title>Prime Number Checker</title>
-
 </head>
 <body>
-<h2>Prime Number Checker</h2>
-<input type="number" id="numberInput" placeholder="Enter a number">
-<button id="checkButton">Check</button>
-<p id="result"></p>
+
+<div class="form-container">
+    <h2>Prime Number Checker</h2>
+    <input type="number" id="numberInput" placeholder="Enter a number">
+    <button id="checkButton">Check</button>
+    <p id="result"></p>
+
+    <h3>Checked numbers</h3>
+    <p>Primes:</p>
+    <textarea id="primes" placeholder="These are primes"></textarea>
+
+    <p>Non-primes:</p>
+    <textarea id="nonPrimes" placeholder="These are not primes"></textarea>
+</div>
 
 <script src="Prime.js"></script>
 </body>
 </html>
+
