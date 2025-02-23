@@ -14,7 +14,10 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 300px;
+    width: 100%;
+    max-width: 400px; /* Adjust the width for better text wrapping */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 input, button, textarea {
@@ -38,5 +41,22 @@ button:hover {
 
 textarea {
     resize: none;
-    height: 80px;
+    height: 100px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap; /* Ensures numbers wrap instead of extending */
+}
+
+.checked-numbers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px; /* Space between numbers */
+}
+
+.checked-numbers span {
+    display: inline-block;
+    padding: 5px;
+    background: #eee;
+    border-radius: 5px;
 }
