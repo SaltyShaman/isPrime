@@ -1,4 +1,4 @@
-document.getElementById("checkButton").addEventListener("click", function() {
+document.getElementById("checkButton").addEventListener("click", function () {
     const inputValue = document.getElementById("numberInput").value.trim();
 
     // Ensure the input is a valid number
@@ -12,16 +12,40 @@ document.getElementById("checkButton").addEventListener("click", function() {
     const primesArea = document.getElementById("primes");
     const nonPrimesArea = document.getElementById("nonPrimes");
 
+    let primesList = primesArea.value.split(/\s+/).filter(Boolean);
+    let nonPrimesList = nonPrimesArea.value.split(/\s+/).filter(Boolean);
+
+    // Check for duplicates before adding
+    if (isDuplicate(num, primesArea) || isDuplicate(num, nonPrimesArea)) {
+        resultElement.innerText = `${num} is already checked.`;
+        return;
+    }
+
     if (isPrime(num)) {
         resultElement.innerText = `${num} is a prime number`;
-        primesArea.value += num + "\n"; // Append to the primes textarea
-        console.log("Prime is in");
+        primesList.push(num.toString()); // Add to array
+        primesArea.value = formatNumbers(primesList); // Format output
     } else {
         resultElement.innerText = `${num} is NOT a prime number`;
-        nonPrimesArea.value += num + "\n"; // Append to the non-primes textarea
-        console.log("Non-prime is in");
+        nonPrimesList.push(num.toString()); // Add to array
+        nonPrimesArea.value = formatNumbers(nonPrimesList);
     }
 });
+
+function formatNumbers(list) {
+    let formattedText = "";
+    for (let i = 0; i < list.length; i++) {
+        if (i > 0 && i % 20 === 0) {
+            formattedText += "\n"; // New line after every 20 numbers
+        }
+        formattedText += list[i] + " ";
+    }
+    return formattedText.trim(); // Trim any trailing space
+}
+function isDuplicate(num, textarea) {
+    const values = textarea.value.split("\n"); // Convert to array
+    return values.includes(num.toString()); // Check if number is already present
+}
 
 function isPrime(n) {
     if (n < 2n) return false;
